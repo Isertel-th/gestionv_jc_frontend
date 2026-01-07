@@ -45,7 +45,7 @@
 <script>
     async function cargarReportes() {
         try {
-            const res = await fetch('http://localhost:3000/api/reportes');
+            const res = await fetch('https://gestionv-jc-backend.onrender.com/api/reportes');
             const reportes = await res.json();
             const tabla = document.getElementById('listaReportes');
             

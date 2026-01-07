@@ -53,7 +53,7 @@
         formData.append('fotos', document.getElementById('foto2').files[0]);
 
         try {
-            const res = await fetch('http://localhost:3000/api/reporte', {
+            const res = await fetch('https://gestionv-jc-backend.onrender.com/api/reporte', {
                 method: 'POST',
                 body: formData
             });

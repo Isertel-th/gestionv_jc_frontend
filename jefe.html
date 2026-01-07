@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Reportes - Jefe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f4f8; }
+        .navbar { background-color: #003366; }
+        .table-container { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .thead-blue { background-color: #0056b3; color: white; }
+        .img-preview { width: 80px; border-radius: 5px; cursor: pointer; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark shadow-sm mb-4">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Panel de Control - Jefe</span>
+        <button class="btn btn-light btn-sm" onclick="location.href='index.html'">Cerrar Sesión</button>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="table-container mx-3">
+        <h4 class="text-primary mb-4">Historial de Reportes Vehiculares</h4>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="thead-blue">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Placa</th>
+                        <th>Foto Vehículo</th>
+                        <th>Foto Tablero</th>
+                    </tr>
+                </thead>
+                <tbody id="listaReportes">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function cargarReportes() {
+        try {
+            const res = await fetch('http://localhost:3000/api/reportes');
+            const reportes = await res.json();
+            const tabla = document.getElementById('listaReportes');
+            
+            tabla.innerHTML = reportes.map(r => `
+                <tr>
+                    <td>${new Date(r.fecha).toLocaleString()}</td>
+                    <td class="fw-bold text-dark">${r.placa}</td>
+                    <td><img src="${r.foto_vehiculo}" class="img-preview" onclick="window.open(this.src)"></td>
+                    <td><img src="${r.foto_tablero}" class="img-preview" onclick="window.open(this.src)"></td>
+                </tr>
+            `).join('');
+        } catch (err) { console.error("Error al cargar reportes"); }
+    }
+    cargarReportes();
+</script>
+</body>
+</html>
